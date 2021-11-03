@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="import" href="./john.html"/>
+</head>
+<body>
+    <button id="load">Load component</button>
+    <john-element></john-element>
+    <script type="module">
+        document.querySelector("#load").addEventListener('click', () => {
+            import('./johnelement.js').then(() => {});
+        })
+    </script>
+</body>
+
+
+  
+</html>
