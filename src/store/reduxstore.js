@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
-import thunkMiddleware from 'redux-thunk'
-
+// import thunkMiddleware from 'redux-thunk'
+import createSagaMiddleware from '@redux-saga/core'
+import { takeEvery, call, put, takeLatest } from 'redux-saga/effects'
 
 
 let soccerActions = {
@@ -47,10 +48,27 @@ function reducer(state = initialValue, action) {
 //     return next(action)
 //   }
 
-const reduxdatabase = createStore(combineReducers({teamSlice:reducer}), applyMiddleware(thunkMiddleware));
+const sagaMW = createSagaMiddleware()
+const reduxdatabase = createStore(combineReducers({teamSlice:reducer}), applyMiddleware(sagaMW));
 
+function* teamsWatcher(){
+    yield takeLatest("GETTEAMS", teamsWorker)
+}
+function* teamsWorker() {
+    console.log("AHA een getter op teams!!");
+    console.log("fething data");
+    
+    yield new Promise((res, rej) => {
+        setTimeout(() => { res(10)}, 500);
+    });
+    console.log("this was a slow fetch dude");
+    var data = yield fetch("./teams.json")
+    var teams = yield data.json()
+    console.log("teams are", teams); 
+    yield put({type:"SETTEAMS", payload:teams})
+}
 
-
+sagaMW.run(teamsWatcher)
 
 export async function fetchTeamsAsync(dispatch, getState) {
     const response = await fetch('./teams.json')

@@ -19,23 +19,4 @@ const SoccerGame = ({fetchTeams}) => {
         </div>       
 }
 
-// class SoccerGame extends Component {
-//     constructor(){
-//         super(); 
-//         this.handleClick = this.handleClick.bind(this); 
-
-//     }
-//     handleClick() {
-//         this.props.fetchTeams();
-//     }
-
-//     render() {
-//         return <div>
-//              <SoccerGamesList />
-//              <SoccerGameDetails />
-//              <SoccerForm />
-//              <button onClick={this.handleClick}>Get Teams</button>
-//         </div>       
-//     }
-// }
- export default connect(null, d => ({ fetchTeams: () => d(fetchTeams)}))(SoccerGame)
+ export default connect(null, d => ({ fetchTeams: () => d({type:"GETTEAMS"})}))(SoccerGame)
